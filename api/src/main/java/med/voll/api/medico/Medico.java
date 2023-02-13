@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import med.voll.api.endereco.Endereco;
 
 @Table(name = "medicos")
-@Entity(name = "medico")
+@Entity(name = "Medico")
 public class Medico {
 
     @Id
