@@ -1,10 +1,16 @@
 package med.voll.api.medico;
 
 import jakarta.persistence.*;
+import lombok.*;
 import med.voll.api.endereco.Endereco;
 
 @Table(name = "medicos")
 @Entity(name = "Medico")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Medico {
 
     @Id
