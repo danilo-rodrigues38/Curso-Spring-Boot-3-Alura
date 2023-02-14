@@ -2,7 +2,7 @@ create table pacientes (
     id bigint not null auto_increment primary key,
     nome varchar(100) not null,
     email varchar(100) not null unique,
-    telefone varchar(6) not null unique,
+    telefone varchar(15) not null unique,
     cpf varchar(100) not null,
     logradouro varchar(100) not null,
     bairro varchar(100) not null,
