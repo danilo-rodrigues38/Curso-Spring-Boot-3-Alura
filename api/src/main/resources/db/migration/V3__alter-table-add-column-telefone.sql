@@ -1,0 +1,1 @@
+alter table medicos add column telefone varchar(15) after email;
