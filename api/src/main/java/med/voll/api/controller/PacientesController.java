@@ -3,10 +3,7 @@ package med.voll.api.controller;
 import jakarta.validation.Valid;
 import med.voll.api.medico.DadosListagemMedico;
 import med.voll.api.medico.Medico;
-import med.voll.api.paciente.DadosCadastroPacientes;
-import med.voll.api.paciente.DadosListagemPaciente;
-import med.voll.api.paciente.Paciente;
-import med.voll.api.paciente.PacienteRepository;
+import med.voll.api.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +30,10 @@ public class PacientesController {
         return repository.findAll(paginacao).map(DadosListagemPaciente::new);
     }
 
-    public void atualizar(@RequestBody @Valid DadosAtualizarPacientes dados) {
-        
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid DadosAtualizacaoPacientes dados) {
+        var paciente = repository.getReferenceById(dados.id());
+        paciente.atualizarInformacoes(dados);
     }
 }
