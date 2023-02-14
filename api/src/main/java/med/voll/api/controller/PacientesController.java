@@ -32,4 +32,8 @@ public class PacientesController {
     public Page<DadosListagemPaciente> listar(Pageable paginacao) {
         return repository.findAll(paginacao).map(DadosListagemPaciente::new);
     }
+
+    public void atualizar(@RequestBody @Valid DadosAtualizarPacientes dados) {
+        
+    }
 }
