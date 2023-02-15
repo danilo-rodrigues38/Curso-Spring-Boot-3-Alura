@@ -53,4 +53,11 @@ public class MedicosController {
         var medico = repository.getReferenceById(id);
         medico.excluir();
     }
+
+    @PatchMapping("/{id}")
+    @Transactional
+    public void ativarPrefil(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+        medico.ativar();
+    }
 }
