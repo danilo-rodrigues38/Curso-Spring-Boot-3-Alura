@@ -54,4 +54,12 @@ public class PacientesController {
         var paciente = repository.getReferenceById(id);
         paciente.excluir();
     }
+
+
+    @PatchMapping("/{id}")
+    @Transactional
+    public void ativarPerfil(@PathVariable Long id) {
+        var paciente = repository.getReferenceById(id);
+        paciente.ativar();
+    }
 }
