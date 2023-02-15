@@ -35,4 +35,17 @@ public class MedicosController {
         var medico = repository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
     }
+
+//    Código para excluir todo o registro pelo id.
+//    @DeleteMapping("/{id}")
+//    @Transactional
+//    public void excluir(@PathVariable Long id){
+//        repository.deleteById(id);
+//    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id){
+        repository.deleteById(id);
+    }
 }
