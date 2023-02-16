@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,24 +21,26 @@ public class MedicosController {
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosCadastroMedicos dados) {
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedicos dados) {
         repository.save(new  Medico(dados));
     }
 
     @GetMapping
-    public Page<DadosListagemMedico> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao){
+    public ResponseEntity<Page<DadosListagemMedico>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao){
         // Retorna todos os registros do banco de dados
         //return repository.findAll(paginacao).map(DadosListagemMedico::new);
 
         // Retorna somente os registros ativos do banco de dados.
-        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+        var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
+        return ResponseEntity.ok(page);
     }
 
     @PutMapping
     @Transactional
-    public void atualizar(@RequestBody @Valid DadosAtualizacaoMedicos dados){
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoMedicos dados){
         var medico = repository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
 
 //    Código para excluir todo o registro pelo id.
@@ -49,15 +52,17 @@ public class MedicosController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluir(@PathVariable Long id){
+    public ResponseEntity excluir(@PathVariable Long id){
         var medico = repository.getReferenceById(id);
         medico.excluir();
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
     @Transactional
-    public void ativarPrefil(@PathVariable Long id) {
+    public ResponseEntity ativarPrefil(@PathVariable Long id) {
         var medico = repository.getReferenceById(id);
         medico.ativar();
+        return ResponseEntity.noContent().build();
     }
 }
