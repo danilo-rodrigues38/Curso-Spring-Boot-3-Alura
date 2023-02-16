@@ -7,6 +7,7 @@ import med.voll.api.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +37,10 @@ public class PacientesController {
 
     @PutMapping
     @Transactional
-    public void atualizar(@RequestBody @Valid DadosAtualizacaoPacientes dados) {
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoPacientes dados) {
         var paciente = repository.getReferenceById(dados.id());
         paciente.atualizarInformacoes(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
     }
 
 //    Código para excluir todo o registro pelo id.
@@ -50,16 +52,18 @@ public class PacientesController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluir(@PathVariable Long id){
+    public ResponseEntity excluir(@PathVariable Long id){
         var paciente = repository.getReferenceById(id);
         paciente.excluir();
+        return ResponseEntity.noContent().build();
     }
 
 
     @PatchMapping("/{id}")
     @Transactional
-    public void ativarPerfil(@PathVariable Long id) {
+    public ResponseEntity ativarPerfil(@PathVariable Long id) {
         var paciente = repository.getReferenceById(id);
         paciente.ativar();
+        return ResponseEntity.noContent().build();
     }
 }
